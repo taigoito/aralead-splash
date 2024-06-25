@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129.05 232.1">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #006666;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <g id="logo">
+    <path id="logo-aralead-02" class="cls-1" d="M89.25,0c-17.65,0-34.4,5.71-45.42,20.3V2.88H0v229.22h43.83v-88.96c0-24.55-.37-52.4.21-61.18,1.67-25.58,22.02-43.32,43.31-43.32,11.78,0,18.78,5.37,18.78,5.37l22.93-29.44S111.32,0,89.25,0Z"/>
+  </g>
+</svg>
