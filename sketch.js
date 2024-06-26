@@ -6,10 +6,12 @@
 
 const elem = document.getElementById('canvas');
 const canvas = {};
-let progress, time = 0, unit = 100;
+let time = 0;
+const unit = 100;
 
-const background = '#066';
-const foreground = '#fff';
+const primary = '#026456';
+const secondary = '#3eac7f';
+const background = '#ffffff';
 
 const resize = () => {
   canvas.width = Math.floor(elem.clientWidth);
@@ -27,16 +29,16 @@ const update = () => {
 }
 
 const clear = (ctx) => {
-  ctx.fillStyle = background;
+  ctx.fillStyle = primary;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 const drawBackLine = (ctx, start, stop) => {
   if (time < start) return
-  const myTime = Math.min(time - start, stop);
+  const myTime = Math.min(time - start, stop - start);
   const progress = canvas.min * myTime / (stop - start);
 
-  ctx.fillStyle = foreground;
+  ctx.fillStyle = background;
   for (let i = 0; i < myTime; i++) {
     const initX = canvas.width < canvas.height ?
       - canvas.min * 3 / 8 : canvas.width / 2 - canvas.min * 7 / 8;
@@ -51,20 +53,67 @@ const drawBackLine = (ctx, start, stop) => {
 
 const drawMainLogo = (ctx, start, stop) => {
   if (time < start) return
-  const myTime = Math.max(stop - time, 0);
-  console.log(myTime);
-  const progress = canvas.r * myTime / (stop - start);
+  const myStart1 = start;
+  const myStart2 = start + (stop - start) * 2 / 6;
+  const myStart3 = start + (stop - start) * 3 / 6;
+  const myStart4 = start + (stop - start) * 4 / 6;
+  const myTime1 = Math.min(time - myStart1, myStart2 - myStart1);
+  const myTime2 = Math.min(time - myStart2, myStart3 - myStart2);
+  const myTime3 = Math.min(time - myStart3, myStart4 - myStart3);
+  const myTime4 = Math.min(time - myStart4, stop - myStart4);
+  const initX = canvas.x;
+  const initY = canvas.y - canvas.r / 2;
+  const progress1 = canvas.r / 3 * myTime1 / (myStart2 - myStart1);
+  const progress2 = canvas.r / 6 * myTime2 / (myStart3 - myStart2);
+  const progress3 = canvas.r / 3 * myTime3 / (myStart4 - myStart3);
+  const progress4 = canvas.r / 6 * myTime4 / (stop - myStart4);
+  const progressX1 = progress1 * Math.cos(Math.PI * 4 / 3);
+  const progressY1 = progress1 * Math.sin(Math.PI * 4 / 3);
+  const progressX2 = progress2 * Math.sin(Math.PI * 5 / 12);
+  const progressY2 = progress2 * Math.cos(Math.PI * 5 / 12);
+  const progressX3 = progress3 * Math.cos(Math.PI * 4 / 3);
+  const progressY3 = progress3 * Math.sin(Math.PI * 4 / 3);
+  const progressX4 = progress4 * Math.sin(Math.PI * 5 / 12);
+  const progressY4 = progress4 * Math.cos(Math.PI * 5 / 12);
 
-  const logo = new Image();
-  logo.src = './assets/logo_aralead.svg';
-  ctx.drawImage(logo, canvas.x - canvas.r / 6, canvas.y - canvas.r / 6, canvas.r / 3, canvas.r / 3);
+  ctx.lineWidth = canvas.r / 12;
+  ctx.lineCap = 'round';
 
-  const maskGradient = ctx.createLinearGradient(canvas.x, canvas.y - canvas.r / 3, canvas.x, canvas.y + canvas.r / 3);
-  maskGradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-  maskGradient.addColorStop(0.75, 'rgba(255, 255, 255, 1)');
-  maskGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-  ctx.fillStyle = maskGradient;
-  ctx.fillRect(canvas.x - canvas.r / 6, canvas.y - canvas.r / 2, canvas.r / 3, progress);
+  // #3
+  if (time > myStart3) {
+    ctx.strokeStyle = '#3eac7f';
+    ctx.beginPath();
+    ctx.moveTo(initX, initY);
+    ctx.lineTo(initX - progressX3 * myTime3 / (myStart4 - myStart3), initY - progressY3 * myTime3 / (myStart4 - myStart3));
+    ctx.stroke();
+  }
+  
+  // #1
+  if (time > myStart1) {
+    ctx.strokeStyle = '#026456';
+    ctx.beginPath();
+    ctx.moveTo(initX, initY);
+    ctx.lineTo(initX + progressX1 * myTime1 / (myStart2 - myStart1), initY - progressY1 * myTime1 / (myStart2 - myStart1));
+    ctx.stroke();
+  }
+
+  // #4
+  if (time > myStart4) {
+    ctx.strokeStyle = '#3eac7f';
+    ctx.beginPath();
+    ctx.moveTo(initX - progressX3, initY - progressY3);
+    ctx.lineTo(initX - progressX3 - progressX4 * myTime4 / (stop - myStart4), initY - progressY3 - progressY4 * myTime4 / (stop - myStart4));
+    ctx.stroke();
+  }
+  
+  // #2
+  if (time > myStart2) {
+    ctx.strokeStyle = '#026456';
+    ctx.beginPath();
+    ctx.moveTo(initX + progressX1, initY - progressY1);
+    ctx.lineTo(initX + progressX1 + progressX2 * myTime2 / (myStart3 - myStart2), initY - progressY1 - progressY2 * myTime2 / (myStart3 - myStart2));
+    ctx.stroke();
+  }
 }
 
 const draw = () => {
@@ -74,7 +123,7 @@ const draw = () => {
 
   drawBackLine(ctx, 0, unit * 0.4);
 
-  drawMainLogo(ctx, unit * 0.35, unit * 0.7);
+  drawMainLogo(ctx, unit * 0.3, unit * 0.7);
 }
 
 const init = () => {
