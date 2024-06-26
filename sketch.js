@@ -56,7 +56,7 @@ const drawMainLogo = (ctx, start, stop) => {
   const progress = canvas.r * myTime / (stop - start);
 
   const logo = new Image();
-  logo.src = './assets/logo-aralead-01.svg';
+  logo.src = './assets/logo_aralead.svg';
   ctx.drawImage(logo, canvas.x - canvas.r / 6, canvas.y - canvas.r / 6, canvas.r / 3, canvas.r / 3);
 
   const maskGradient = ctx.createLinearGradient(canvas.x, canvas.y - canvas.r / 3, canvas.x, canvas.y + canvas.r / 3);
