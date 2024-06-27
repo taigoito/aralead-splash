@@ -8,6 +8,7 @@ const elem = document.getElementById('canvas');
 const canvas = {};
 let time = 0;
 const unit = 100;
+let isDrawing = true;
 
 const primary = '#026456';
 const secondary = '#3eac7f';
@@ -116,14 +117,41 @@ const drawMainLogo = (ctx, start, stop) => {
   }
 }
 
+const renderText = async () => {
+  const largeTextArea = document.getElementById('largeText');
+  const smallTextArea = document.getElementById('smallText');
+  const largeTextImages = [];
+  const smallTextImages = [];
+
+  for (let i = 0; i < 7; i++) {
+    largeTextImages[i] = new Image();
+    largeTextImages[i].src = `./assets/aralead_0${i}.svg`;
+    largeTextImages[i].classList.add('--slideIn');
+    largeTextArea.appendChild(largeTextImages[i]);
+  }
+
+  for (let i = 0; i < 5; i++) {
+    smallTextImages[i] = new Image();
+    smallTextImages[i].src = `./assets/aralead_1${i}.svg`;
+    smallTextImages[i].classList.add('--slideIn');
+    smallTextArea.appendChild(smallTextImages[i]);
+  }
+}
+
 const draw = () => {
   const ctx = elem.getContext('2d');
-  
   clear(ctx);
+  drawBackLine(ctx, 0, unit * 0.35);
+  drawMainLogo(ctx, unit * 0.35, unit * 0.65);
 
-  drawBackLine(ctx, 0, unit * 0.4);
-
-  drawMainLogo(ctx, unit * 0.3, unit * 0.7);
+  const promise = new Promise((resolve, reject) => {
+    if (isDrawing && time > unit * 0.65) resolve();
+  });
+  promise.then(() => {
+    isDrawing = false;
+    renderText();
+  });
+  return promise;
 }
 
 const init = () => {
