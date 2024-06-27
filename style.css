@@ -71,7 +71,14 @@ button, input, select, textarea {
   top: 50%;
   left: calc(50% - min(16vw, 120px));
   width: min(32vw, 240px);
-  height: min(8vw, 60px);
+  height: min(12.8vw, 96px);
+}
+#textArea.fluid {
+  background: linear-gradient(90deg, #666, #666, #666, #ccc, #666, #666, #666);
+  background-size: 300% 100%;
+  -webkit-mask-image: url("./assets/aralead_all.svg");
+          mask-image: url("./assets/aralead_all.svg");
+  animation: move 0.65s ease-in-out;
 }
 
 #largeText img {
@@ -143,5 +150,13 @@ button, input, select, textarea {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+@keyframes move {
+  0% {
+    background-position: 0% 0%;
+  }
+  0% {
+    background-position: 100% 0%;
   }
 }

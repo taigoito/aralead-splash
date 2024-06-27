@@ -117,7 +117,21 @@ const drawMainLogo = (ctx, start, stop) => {
   }
 }
 
+const animationEnd = (elem, func) => {
+  let callback;
+  const promise = new Promise((resolve, reject) => {
+    callback = () => resolve(elem);
+    elem.addEventListener('animationend', callback);
+  });
+  func();
+  promise.then((elem) => {
+    elem.removeEventListener('animationend', callback);
+  });
+  return promise;
+}
+
 const renderText = async () => {
+  const textArea = document.getElementById('textArea');
   const largeTextArea = document.getElementById('largeText');
   const smallTextArea = document.getElementById('smallText');
   const largeTextImages = [];
@@ -136,6 +150,12 @@ const renderText = async () => {
     smallTextImages[i].classList.add('--slideIn');
     smallTextArea.appendChild(smallTextImages[i]);
   }
+
+  setTimeout(() => {
+    largeTextArea.remove();
+    smallTextArea.remove();
+    textArea.classList.add('fluid');
+  }, 500)
 }
 
 const draw = () => {
