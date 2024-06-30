@@ -114,7 +114,7 @@ button, input, select, textarea {
 }
 
 #smallText {
-  padding: 0 60px;
+  padding: 0 min(8vw, 60px);
 }
 #smallText img {
   width: min(3vw, 22.5px);

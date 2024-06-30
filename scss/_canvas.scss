@@ -46,7 +46,7 @@
 }
 
 #smallText {
-  padding: 0 60px;
+  padding: 0 min(8vw, 60px);
 
   img {
     width: min(3vw, 22.5px);
