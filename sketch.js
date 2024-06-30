@@ -131,7 +131,7 @@ const animationEnd = (elem, func) => {
 }
 
 const renderText = async () => {
-  const textArea = document.getElementById('textArea');
+  const gradientText = document.getElementById('gradientText');
   const largeTextArea = document.getElementById('largeText');
   const smallTextArea = document.getElementById('smallText');
   const largeTextImages = [];
@@ -154,7 +154,7 @@ const renderText = async () => {
   setTimeout(() => {
     largeTextArea.remove();
     smallTextArea.remove();
-    textArea.classList.add('fluid');
+    gradientText.classList.add('fluid');
   }, 500)
 }
 
