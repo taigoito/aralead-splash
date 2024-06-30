@@ -15,8 +15,8 @@ const secondary = '#3eac7f';
 const background = '#ffffff';
 
 const resize = () => {
-  canvas.width = Math.floor(elem.clientWidth);
-  canvas.height = Math.floor(elem.clientHeight);
+  canvas.width = Math.floor(elem.clientWidth) * 2;
+  canvas.height = Math.floor(elem.clientHeight * 2);
   canvas.x = canvas.width / 2; // 中心x座標
   canvas.y = canvas.height / 2; // 中心y座標
   canvas.min = canvas.width < canvas.height ? canvas.width : canvas.height; // 短辺
