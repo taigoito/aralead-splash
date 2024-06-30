@@ -140,7 +140,17 @@ const renderText = async () => {
   for (let i = 0; i < 7; i++) {
     largeTextImages[i] = new Image();
     largeTextImages[i].src = `./assets/aralead_0${i}.svg`;
-    largeTextImages[i].classList.add('--slideIn');
+    if (i < 6) {
+      largeTextImages[i].classList.add('--slideIn');
+    } else {
+      animationEnd(largeTextImages[i], () => {
+        largeTextImages[i].classList.add('--slideIn');
+      }).then(() => {
+        largeTextArea.remove();
+        smallTextArea.remove();
+        gradientText.classList.add('fluid');
+      });
+    }
     largeTextArea.appendChild(largeTextImages[i]);
   }
 
@@ -150,12 +160,6 @@ const renderText = async () => {
     smallTextImages[i].classList.add('--slideIn');
     smallTextArea.appendChild(smallTextImages[i]);
   }
-
-  setTimeout(() => {
-    largeTextArea.remove();
-    smallTextArea.remove();
-    gradientText.classList.add('fluid');
-  }, 500)
 }
 
 const draw = () => {
