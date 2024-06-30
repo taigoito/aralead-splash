@@ -56,7 +56,7 @@ const drawMainLogo = (ctx, start, stop) => {
   const myStart1 = start;
   const myStart2 = start + (stop - start) * 2 / 6;
   const myStart3 = start + (stop - start) * 3 / 6;
-  const myStart4 = start + (stop - start) * 4 / 6;
+  const myStart4 = start + (stop - start) * 5 / 6;
   const myTime1 = Math.min(time - myStart1, myStart2 - myStart1);
   const myTime2 = Math.min(time - myStart2, myStart3 - myStart2);
   const myTime3 = Math.min(time - myStart3, myStart4 - myStart3);
