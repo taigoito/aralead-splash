@@ -58,6 +58,10 @@ button, input, select, textarea {
 /*
  * Canvas
  */
+:root {
+  --v: 1000ms;
+}
+
 #canvas {
   position: fixed;
   top: 0;
@@ -89,7 +93,7 @@ button, input, select, textarea {
 }
 #gradientText.fluid {
   opacity: 1;
-  animation: move 0.65s ease-in-out;
+  animation: move calc(var(--v) * 0.6) ease-in-out;
 }
 
 #largeText {
@@ -102,29 +106,29 @@ button, input, select, textarea {
   opacity: 0;
 }
 #largeText img.--slideIn {
-  animation: slideIn 0.15s ease-in-out;
+  animation: slideIn calc(var(--v) * 0.15) ease-in-out;
   animation-fill-mode: forwards;
 }
 #largeText img:nth-child(1) {
-  animation-delay: 0.05s;
+  animation-delay: calc(var(--v) * 0.05);
 }
 #largeText img:nth-child(2) {
-  animation-delay: 0.1s;
+  animation-delay: calc(var(--v) * 0.1);
 }
 #largeText img:nth-child(3) {
-  animation-delay: 0.15s;
+  animation-delay: calc(var(--v) * 0.15);
 }
 #largeText img:nth-child(4) {
-  animation-delay: 0.2s;
+  animation-delay: calc(var(--v) * 0.2);
 }
 #largeText img:nth-child(5) {
-  animation-delay: 0.25s;
+  animation-delay: calc(var(--v) * 0.25);
 }
 #largeText img:nth-child(6) {
-  animation-delay: 0.3s;
+  animation-delay: calc(var(--v) * 0.3);
 }
 #largeText img:nth-child(7) {
-  animation-delay: 0.35s;
+  animation-delay: calc(var(--v) * 0.35);
 }
 
 #smallText {
@@ -138,23 +142,23 @@ button, input, select, textarea {
   opacity: 0;
 }
 #smallText img.--slideIn {
-  animation: slideIn 0.15s ease-in-out;
+  animation: slideIn calc(var(--v) * 0.15) ease-in-out;
   animation-fill-mode: forwards;
 }
 #smallText img:nth-child(1) {
-  animation-delay: 0.05s;
+  animation-delay: calc(var(--v) * 0.05);
 }
 #smallText img:nth-child(2) {
-  animation-delay: 0.1s;
+  animation-delay: calc(var(--v) * 0.1);
 }
 #smallText img:nth-child(3) {
-  animation-delay: 0.15s;
+  animation-delay: calc(var(--v) * 0.15);
 }
 #smallText img:nth-child(4) {
-  animation-delay: 0.2s;
+  animation-delay: calc(var(--v) * 0.2);
 }
 #smallText img:nth-child(5) {
-  animation-delay: 0.25s;
+  animation-delay: calc(var(--v) * 0.25);
 }
 
 @keyframes slideIn {

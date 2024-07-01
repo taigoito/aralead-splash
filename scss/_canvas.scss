@@ -2,6 +2,10 @@
  * Canvas
  */
 
+:root {
+  --v: 1000ms;
+}
+
 #canvas {
   position: fixed;
   top: 0;
@@ -33,7 +37,7 @@
 
   &.fluid {
     opacity: 1;
-    animation: move 0.65s ease-in-out;
+    animation: move calc(var(--v) * 0.6) ease-in-out;
   }
 }
 
@@ -47,13 +51,13 @@
     opacity: 0;
 
     &.--slideIn {
-      animation: slideIn 0.15s ease-in-out;
+      animation: slideIn calc(var(--v) * 0.15) ease-in-out;
       animation-fill-mode: forwards;
     }
 
     @for $i from 1 through 7 {
       &:nth-child(#{$i}) {
-        animation-delay: 0.05s * $i;
+        animation-delay: calc(var(--v) * #{0.05 * $i});
       }
     }
   }
@@ -70,13 +74,13 @@
     opacity: 0;
 
     &.--slideIn {
-      animation: slideIn 0.15s ease-in-out;
+      animation: slideIn calc(var(--v) * 0.15) ease-in-out;
       animation-fill-mode: forwards;
     }
 
     @for $i from 1 through 5 {
       &:nth-child(#{$i}) {
-        animation-delay: 0.05s * $i;
+        animation-delay: calc(var(--v) * #{0.05 * $i});
       }
     }
   }

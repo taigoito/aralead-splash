@@ -7,8 +7,10 @@
 const elem = document.getElementById('canvas');
 const canvas = {};
 let time = 0;
-const unit = 100;
 let isDrawing = true;
+const unit = 60; // 1frame = 1ms
+// renderText()の所要時間
+document.documentElement.style.setProperty('--v', `${unit * 1000 / 60}ms`);
 
 const primary = '#026456';
 const secondary = '#3eac7f';
@@ -165,11 +167,11 @@ const renderText = async () => {
 const draw = () => {
   const ctx = elem.getContext('2d');
   clear(ctx);
-  drawBackLine(ctx, 0, unit * 0.35);
-  drawMainLogo(ctx, unit * 0.35, unit * 0.65);
+  drawBackLine(ctx, 0, unit * 0.5);
+  drawMainLogo(ctx, unit * 0.5, unit * 1.0);
 
   const promise = new Promise((resolve, reject) => {
-    if (isDrawing && time > unit * 0.65) resolve();
+    if (isDrawing && time > unit * 1.0) resolve();
   });
   promise.then(() => {
     isDrawing = false;
