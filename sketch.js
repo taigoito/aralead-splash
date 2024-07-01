@@ -41,17 +41,17 @@ const drawBackLine = (ctx, start, stop) => {
   const myTime = Math.min(time - start, stop - start);
   const progress = canvas.min * myTime / (stop - start);
 
-  ctx.fillStyle = background;
-  for (let i = 0; i < myTime; i++) {
-    const initX = canvas.width < canvas.height ?
-      - canvas.min * 3 / 8 : canvas.width / 2 - canvas.min * 7 / 8;
-    const initY = canvas.width < canvas.height ?
-      canvas.height / 2 + canvas.min * 7 / 8 : canvas.min * 11 / 8;
-    ctx.beginPath();
-    ctx.arc(progress * i / stop + initX, -progress * i / stop + initY, canvas.r, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.fill();
-  }
+  ctx.lineWidth = canvas.r * 2;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = background;
+  const initX = canvas.width < canvas.height ?
+    - canvas.min * 3 / 8 : canvas.width / 2 - canvas.min * 7 / 8;
+  const initY = canvas.width < canvas.height ?
+    canvas.height / 2 + canvas.min * 7 / 8 : canvas.min * 11 / 8;
+  ctx.beginPath();
+  ctx.moveTo(initX, initY);
+  ctx.lineTo(progress * myTime / stop + initX, -progress * myTime / stop + initY)
+  ctx.stroke();
 }
 
 const drawMainLogo = (ctx, start, stop) => {
@@ -167,8 +167,8 @@ const renderText = async () => {
 const draw = () => {
   const ctx = elem.getContext('2d');
   clear(ctx);
-  drawBackLine(ctx, 0, unit * 0.5);
-  drawMainLogo(ctx, unit * 0.5, unit * 1.0);
+  drawBackLine(ctx, 0, unit * 0.25);
+  drawMainLogo(ctx, unit * 0.25, unit * 1.0);
 
   const promise = new Promise((resolve, reject) => {
     if (isDrawing && time > unit * 1.0) resolve();
