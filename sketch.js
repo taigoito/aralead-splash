@@ -167,11 +167,11 @@ const renderText = async () => {
 const draw = () => {
   const ctx = elem.getContext('2d');
   clear(ctx);
-  drawBackLine(ctx, 0, unit * 0.25);
-  drawMainLogo(ctx, unit * 0.25, unit * 1.0);
+  drawBackLine(ctx, 0, unit * 0.3);
+  drawMainLogo(ctx, unit * 0.3, unit * 1.5);
 
   const promise = new Promise((resolve, reject) => {
-    if (isDrawing && time > unit * 1.0) resolve();
+    if (isDrawing && time > unit * 0.3) resolve();
   });
   promise.then(() => {
     isDrawing = false;
