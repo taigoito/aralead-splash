@@ -72,7 +72,7 @@ button, input, select, textarea {
 
 #textArea {
   position: fixed;
-  top: 50%;
+  top: 47.5%;
   left: calc(50% - min(16vw, 120px));
   width: min(32vw, 240px);
   height: min(12.8vw, 96px);
