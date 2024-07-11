@@ -110,25 +110,25 @@ button, input, select, textarea {
   animation-fill-mode: forwards;
 }
 #largeText img:nth-child(1) {
-  animation-delay: calc(var(--v) * 0.15);
+  animation-delay: calc(var(--v) * 0.05);
 }
 #largeText img:nth-child(2) {
-  animation-delay: calc(var(--v) * 0.3);
+  animation-delay: calc(var(--v) * 0.1);
 }
 #largeText img:nth-child(3) {
-  animation-delay: calc(var(--v) * 0.45);
+  animation-delay: calc(var(--v) * 0.15);
 }
 #largeText img:nth-child(4) {
-  animation-delay: calc(var(--v) * 0.6);
+  animation-delay: calc(var(--v) * 0.2);
 }
 #largeText img:nth-child(5) {
-  animation-delay: calc(var(--v) * 0.75);
+  animation-delay: calc(var(--v) * 0.25);
 }
 #largeText img:nth-child(6) {
-  animation-delay: calc(var(--v) * 0.9);
+  animation-delay: calc(var(--v) * 0.3);
 }
 #largeText img:nth-child(7) {
-  animation-delay: calc(var(--v) * 1.05);
+  animation-delay: calc(var(--v) * 0.35);
 }
 
 #smallText {
@@ -146,19 +146,19 @@ button, input, select, textarea {
   animation-fill-mode: forwards;
 }
 #smallText img:nth-child(1) {
-  animation-delay: calc(var(--v) * 0.15);
+  animation-delay: calc(var(--v) * 0.05);
 }
 #smallText img:nth-child(2) {
-  animation-delay: calc(var(--v) * 0.3);
+  animation-delay: calc(var(--v) * 0.1);
 }
 #smallText img:nth-child(3) {
-  animation-delay: calc(var(--v) * 0.45);
+  animation-delay: calc(var(--v) * 0.15);
 }
 #smallText img:nth-child(4) {
-  animation-delay: calc(var(--v) * 0.6);
+  animation-delay: calc(var(--v) * 0.2);
 }
 #smallText img:nth-child(5) {
-  animation-delay: calc(var(--v) * 0.75);
+  animation-delay: calc(var(--v) * 0.25);
 }
 
 @keyframes slideIn {

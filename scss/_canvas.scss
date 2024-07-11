@@ -57,7 +57,7 @@
 
     @for $i from 1 through 7 {
       &:nth-child(#{$i}) {
-        animation-delay: calc(var(--v) * #{0.15 * $i});
+        animation-delay: calc(var(--v) * #{0.05 * $i});
       }
     }
   }
@@ -80,7 +80,7 @@
 
     @for $i from 1 through 5 {
       &:nth-child(#{$i}) {
-        animation-delay: calc(var(--v) * #{0.15 * $i});
+        animation-delay: calc(var(--v) * #{0.05 * $i});
       }
     }
   }
