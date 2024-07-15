@@ -40,10 +40,11 @@ const drawBackLine = (ctx, start, stop) => {
   if (time < start) return
   const myTime = Math.min(time - start, stop - start);
   const progress = canvas.min * myTime / (stop - start);
+  const opacity = Math.ceil(100 * myTime / (stop - start));
 
   ctx.lineWidth = canvas.r * 2;
   ctx.lineCap = 'round';
-  ctx.strokeStyle = background;
+  ctx.strokeStyle = `rgb(255, 255, 255, ${opacity / 100})`;
   const initX = canvas.width < canvas.height ?
     - canvas.min * 3 / 8 : canvas.width / 2 - canvas.min * 7 / 8;
   const initY = canvas.width < canvas.height ?
@@ -167,11 +168,11 @@ const renderText = async () => {
 const draw = () => {
   const ctx = elem.getContext('2d');
   clear(ctx);
-  drawBackLine(ctx, 0, unit * 0.25);
-  drawMainLogo(ctx, unit * 0.25, unit * 1.0);
+  drawBackLine(ctx, 0, unit * 0.75);
+  drawMainLogo(ctx, unit * 0.75, unit * 1.5);
 
   const promise = new Promise((resolve, reject) => {
-    if (isDrawing && time > unit * 1.0) resolve();
+    if (isDrawing && time > unit * 1.5) resolve();
   });
   promise.then(() => {
     isDrawing = false;
