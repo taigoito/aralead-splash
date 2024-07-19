@@ -8,9 +8,10 @@ const elem = document.getElementById('canvas');
 const canvas = {};
 let time = 0;
 let isDrawing = true;
-const unit = 60; // 1frame = 1ms
+const fps = 60
+const unit = fps; // 1frame = 1ms
 // renderText()の所要時間
-document.documentElement.style.setProperty('--v', `${unit * 1000 / 60}ms`);
+document.documentElement.style.setProperty('--v', `${unit * 1000 / fps}ms`);
 
 const primary = '#026456';
 const secondary = '#3eac7f';
@@ -182,10 +183,11 @@ const draw = () => {
 }
 
 const init = () => {
-  resize();
-  update();
-  draw();
-  window.requestAnimationFrame(init);
+  setInterval(() => {
+    resize();
+    update();
+    draw();
+  }, 1000 / fps);
 }
 
 init();
