@@ -13,7 +13,7 @@ class Sketch {
     this.fps = 60
     this.unit = unit || this.fps; // 1frame = 1000 / 60 ms
     // renderText()の所要時間
-    document.documentElement.style.setProperty('--v', `${this.unit * 1000 / this.fps}ms`);
+    document.documentElement.style.setProperty('--v', `${this.unit * 2 / 3 * 1000 / this.fps}ms`);
     // 背景色
     this.primary = '#026456';
     // 開始
