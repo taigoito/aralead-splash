@@ -4,190 +4,192 @@
  * Location: Fukui, Japan
  */
 
-const elem = document.getElementById('canvas');
-const canvas = {};
-let time = 0;
-let isDrawing = true;
-const fps = 60
-const unit = fps; // 1frame = 1ms
-// renderText()の所要時間
-document.documentElement.style.setProperty('--v', `${unit * 1000 / fps}ms`);
+class Sketch {
+  constructor(unit) {
+    this.elem = document.getElementById('canvas');
+    this.canvas = {};
+    this.time = 0;
+    this.isDrawing = true;
+    this.fps = 60
+    this.unit = unit || this.fps; // 1frame = 1000 / 60 ms
+    // renderText()の所要時間
+    document.documentElement.style.setProperty('--v', `${this.unit * 1000 / this.fps}ms`);
+    // 背景色
+    this.primary = '#026456';
+    // 開始
+    this.init();
+  }
 
-const primary = '#026456';
-const secondary = '#3eac7f';
-const background = '#ffffff';
+  resize() {
+    this.canvas.width = Math.floor(this.elem.clientWidth) * 2;
+    this.canvas.height = Math.floor(this.elem.clientHeight * 2);
+    this.canvas.x = this.canvas.width / 2; // 中心x座標
+    this.canvas.y = this.canvas.height / 2; // 中心y座標
+    this.canvas.min = this.canvas.width < this.canvas.height ? this.canvas.width : this.canvas.height; // 短辺
+    this.canvas.r = this.canvas.min / 3; // 半径
+    this.elem.setAttribute('width', this.canvas.width);
+    this.elem.setAttribute('height', this.canvas.height);
+  }
 
-const resize = () => {
-  canvas.width = Math.floor(elem.clientWidth) * 2;
-  canvas.height = Math.floor(elem.clientHeight * 2);
-  canvas.x = canvas.width / 2; // 中心x座標
-  canvas.y = canvas.height / 2; // 中心y座標
-  canvas.min = canvas.width < canvas.height ? canvas.width : canvas.height; // 短辺
-  canvas.r = canvas.min / 3; // 半径
-  elem.setAttribute('width', canvas.width);
-  elem.setAttribute('height', canvas.height);
-}
+  update() {
+    this.time++;
+  }
 
-const update = () => {
-  time++;
-}
+  clear(ctx) {
+    ctx.fillStyle = this.primary;
+    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
 
-const clear = (ctx) => {
-  ctx.fillStyle = primary;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
+  drawBackLine(ctx, start, stop) {
+    if (this.time < start) return
+    const myTime = Math.min(this.time - start, stop - start);
+    const progress = this.canvas.min * myTime / (stop - start);
+    const opacity = Math.ceil(100 * myTime / (stop - start));
 
-const drawBackLine = (ctx, start, stop) => {
-  if (time < start) return
-  const myTime = Math.min(time - start, stop - start);
-  const progress = canvas.min * myTime / (stop - start);
-  const opacity = Math.ceil(100 * myTime / (stop - start));
-
-  ctx.lineWidth = canvas.r * 2;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = `rgb(255, 255, 255, ${opacity / 100})`;
-  const initX = canvas.width < canvas.height ?
-    - canvas.min * 3 / 8 : canvas.width / 2 - canvas.min * 7 / 8;
-  const initY = canvas.width < canvas.height ?
-    canvas.height / 2 + canvas.min * 7 / 8 : canvas.min * 11 / 8;
-  ctx.beginPath();
-  ctx.moveTo(initX, initY);
-  ctx.lineTo(progress * myTime / stop + initX, -progress * myTime / stop + initY)
-  ctx.stroke();
-}
-
-const drawMainLogo = (ctx, start, stop) => {
-  if (time < start) return
-  const myStart1 = start;
-  const myStart2 = start + (stop - start) * 2 / 6;
-  const myStart3 = start + (stop - start) * 3 / 6;
-  const myStart4 = start + (stop - start) * 5 / 6;
-  const myTime1 = Math.min(time - myStart1, myStart2 - myStart1);
-  const myTime2 = Math.min(time - myStart2, myStart3 - myStart2);
-  const myTime3 = Math.min(time - myStart3, myStart4 - myStart3);
-  const myTime4 = Math.min(time - myStart4, stop - myStart4);
-  const initX = canvas.x;
-  const initY = canvas.y - canvas.r / 2;
-  const progress1 = canvas.r / 3 * myTime1 / (myStart2 - myStart1);
-  const progress2 = canvas.r / 6 * myTime2 / (myStart3 - myStart2);
-  const progress3 = canvas.r / 3 * myTime3 / (myStart4 - myStart3);
-  const progress4 = canvas.r / 6 * myTime4 / (stop - myStart4);
-  const progressX1 = progress1 * Math.cos(Math.PI * 4 / 3);
-  const progressY1 = progress1 * Math.sin(Math.PI * 4 / 3);
-  const progressX2 = progress2 * Math.sin(Math.PI * 5 / 12);
-  const progressY2 = progress2 * Math.cos(Math.PI * 5 / 12);
-  const progressX3 = progress3 * Math.cos(Math.PI * 4 / 3);
-  const progressY3 = progress3 * Math.sin(Math.PI * 4 / 3);
-  const progressX4 = progress4 * Math.sin(Math.PI * 5 / 12);
-  const progressY4 = progress4 * Math.cos(Math.PI * 5 / 12);
-
-  ctx.lineWidth = canvas.r / 12;
-  ctx.lineCap = 'round';
-
-  // #3
-  if (time > myStart3) {
-    ctx.strokeStyle = '#3eac7f';
+    ctx.lineWidth = this.canvas.r * 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = `rgb(255, 255, 255, ${opacity / 100})`;
+    const initX = this.canvas.width < this.canvas.height ?
+      - this.canvas.min * 3 / 8 : this.canvas.width / 2 - this.canvas.min * 7 / 8;
+    const initY = this.canvas.width < this.canvas.height ?
+      this.canvas.height / 2 + this.canvas.min * 7 / 8 : this.canvas.min * 11 / 8;
     ctx.beginPath();
     ctx.moveTo(initX, initY);
-    ctx.lineTo(initX - progressX3 * myTime3 / (myStart4 - myStart3), initY - progressY3 * myTime3 / (myStart4 - myStart3));
-    ctx.stroke();
-  }
-  
-  // #1
-  if (time > myStart1) {
-    ctx.strokeStyle = '#026456';
-    ctx.beginPath();
-    ctx.moveTo(initX, initY);
-    ctx.lineTo(initX + progressX1 * myTime1 / (myStart2 - myStart1), initY - progressY1 * myTime1 / (myStart2 - myStart1));
+    ctx.lineTo(progress + initX, -progress + initY)
     ctx.stroke();
   }
 
-  // #4
-  if (time > myStart4) {
-    ctx.strokeStyle = '#3eac7f';
-    ctx.beginPath();
-    ctx.moveTo(initX - progressX3, initY - progressY3);
-    ctx.lineTo(initX - progressX3 - progressX4 * myTime4 / (stop - myStart4), initY - progressY3 - progressY4 * myTime4 / (stop - myStart4));
-    ctx.stroke();
-  }
-  
-  // #2
-  if (time > myStart2) {
-    ctx.strokeStyle = '#026456';
-    ctx.beginPath();
-    ctx.moveTo(initX + progressX1, initY - progressY1);
-    ctx.lineTo(initX + progressX1 + progressX2 * myTime2 / (myStart3 - myStart2), initY - progressY1 - progressY2 * myTime2 / (myStart3 - myStart2));
-    ctx.stroke();
-  }
-}
+  drawMainLogo(ctx, start, stop) {
+    if (this.time < start) return
+    const myStart1 = start;
+    const myStart2 = start + (stop - start) * 2 / 6;
+    const myStart3 = start + (stop - start) * 3 / 6;
+    const myStart4 = start + (stop - start) * 5 / 6;
+    const myTime1 = Math.min(this.time - myStart1, myStart2 - myStart1);
+    const myTime2 = Math.min(this.time - myStart2, myStart3 - myStart2);
+    const myTime3 = Math.min(this.time - myStart3, myStart4 - myStart3);
+    const myTime4 = Math.min(this.time - myStart4, stop - myStart4);
+    const initX = this.canvas.x;
+    const initY = this.canvas.y - this.canvas.r / 2;
+    const progress1 = this.canvas.r / 3 * myTime1 / (myStart2 - myStart1);
+    const progress2 = this.canvas.r / 6 * myTime2 / (myStart3 - myStart2);
+    const progress3 = this.canvas.r / 3 * myTime3 / (myStart4 - myStart3);
+    const progress4 = this.canvas.r / 6 * myTime4 / (stop - myStart4);
+    const progressX1 = progress1 * Math.cos(Math.PI * 4 / 3);
+    const progressY1 = progress1 * Math.sin(Math.PI * 4 / 3);
+    const progressX2 = progress2 * Math.sin(Math.PI * 5 / 12);
+    const progressY2 = progress2 * Math.cos(Math.PI * 5 / 12);
+    const progressX3 = progress3 * Math.cos(Math.PI * 4 / 3);
+    const progressY3 = progress3 * Math.sin(Math.PI * 4 / 3);
+    const progressX4 = progress4 * Math.sin(Math.PI * 5 / 12);
+    const progressY4 = progress4 * Math.cos(Math.PI * 5 / 12);
 
-const animationEnd = (elem, func) => {
-  let callback;
-  const promise = new Promise((resolve, reject) => {
-    callback = () => resolve(elem);
-    elem.addEventListener('animationend', callback);
-  });
-  func();
-  promise.then((elem) => {
-    elem.removeEventListener('animationend', callback);
-  });
-  return promise;
-}
+    ctx.lineWidth = this.canvas.r / 12;
+    ctx.lineCap = 'round';
 
-const renderText = async () => {
-  const gradientText = document.getElementById('gradientText');
-  const largeTextArea = document.getElementById('largeText');
-  const smallTextArea = document.getElementById('smallText');
-  const largeTextImages = [];
-  const smallTextImages = [];
-
-  for (let i = 0; i < 7; i++) {
-    largeTextImages[i] = new Image();
-    largeTextImages[i].src = `./assets/aralead_0${i}.svg`;
-    if (i < 6) {
-      largeTextImages[i].classList.add('--slideIn');
-    } else {
-      animationEnd(largeTextImages[i], () => {
-        largeTextImages[i].classList.add('--slideIn');
-      }).then(() => {
-        largeTextArea.remove();
-        smallTextArea.remove();
-        gradientText.classList.add('fluid');
-      });
+    // #3
+    if (this.time > myStart3) {
+      ctx.strokeStyle = '#3eac7f';
+      ctx.beginPath();
+      ctx.moveTo(initX, initY);
+      ctx.lineTo(initX - progressX3, initY - progressY3);
+      ctx.stroke();
     }
-    largeTextArea.appendChild(largeTextImages[i]);
+    
+    // #1
+    if (this.time > myStart1) {
+      ctx.strokeStyle = '#026456';
+      ctx.beginPath();
+      ctx.moveTo(initX, initY);
+      ctx.lineTo(initX + progressX1, initY - progressY1);
+      ctx.stroke();
+    }
+
+    // #4
+    if (this.time > myStart4) {
+      ctx.strokeStyle = '#3eac7f';
+      ctx.beginPath();
+      ctx.moveTo(initX - progressX3, initY - progressY3);
+      ctx.lineTo(initX - progressX3 - progressX4, initY - progressY3 - progressY4);
+      ctx.stroke();
+    }
+    
+    // #2
+    if (this.time > myStart2) {
+      ctx.strokeStyle = '#026456';
+      ctx.beginPath();
+      ctx.moveTo(initX + progressX1, initY - progressY1);
+      ctx.lineTo(initX + progressX1 + progressX2, initY - progressY1 - progressY2);
+      ctx.stroke();
+    }
   }
 
-  for (let i = 0; i < 5; i++) {
-    smallTextImages[i] = new Image();
-    smallTextImages[i].src = `./assets/aralead_1${i}.svg`;
-    smallTextImages[i].classList.add('--slideIn');
-    smallTextArea.appendChild(smallTextImages[i]);
+  animationEnd(elem, func) {
+    let callback;
+    const promise = new Promise((resolve, reject) => {
+      callback = () => resolve(elem);
+      elem.addEventListener('animationend', callback);
+    });
+    func();
+    promise.then((elem) => {
+      elem.removeEventListener('animationend', callback);
+    });
+    return promise;
+  }
+
+  renderText() {
+    const gradientText = document.getElementById('gradientText');
+    const largeTextArea = document.getElementById('largeText');
+    const smallTextArea = document.getElementById('smallText');
+    const largeTextImages = [];
+    const smallTextImages = [];
+
+    for (let i = 0; i < 7; i++) {
+      largeTextImages[i] = new Image();
+      largeTextImages[i].src = `./assets/aralead_0${i}.svg`;
+      if (i < 6) {
+        largeTextImages[i].classList.add('--slideIn');
+      } else {
+        this.animationEnd(largeTextImages[i], () => {
+          largeTextImages[i].classList.add('--slideIn');
+        }).then(() => {
+          largeTextArea.remove();
+          smallTextArea.remove();
+          gradientText.classList.add('fluid');
+        });
+      }
+      largeTextArea.appendChild(largeTextImages[i]);
+    }
+
+    for (let i = 0; i < 5; i++) {
+      smallTextImages[i] = new Image();
+      smallTextImages[i].src = `./assets/aralead_1${i}.svg`;
+      smallTextImages[i].classList.add('--slideIn');
+      smallTextArea.appendChild(smallTextImages[i]);
+    }
+  }
+
+  draw() {
+    const ctx = this.elem.getContext('2d');
+    this.clear(ctx);
+    this.drawBackLine(ctx, 0, this.unit * 0.5);
+    this.drawMainLogo(ctx, this.unit * 0.5, this.unit * 1.0);
+
+    const promise = new Promise((resolve, reject) => {
+      if (this.isDrawing && this.time > this.unit * 1.0) resolve();
+    });
+    promise.then(() => {
+      this.isDrawing = false;
+      this.renderText();
+    });
+    return promise;
+  }
+
+  init() {
+    setInterval(() => {
+      this.resize();
+      this.update();
+      this.draw();
+    }, 1000 / this.fps);
   }
 }
-
-const draw = () => {
-  const ctx = elem.getContext('2d');
-  clear(ctx);
-  drawBackLine(ctx, 0, unit * 0.75);
-  drawMainLogo(ctx, unit * 0.75, unit * 1.5);
-
-  const promise = new Promise((resolve, reject) => {
-    if (isDrawing && time > unit * 1.5) resolve();
-  });
-  promise.then(() => {
-    isDrawing = false;
-    renderText();
-  });
-  return promise;
-}
-
-const init = () => {
-  setInterval(() => {
-    resize();
-    update();
-    draw();
-  }, 1000 / fps);
-}
-
-init();
